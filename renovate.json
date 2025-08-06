@@ -1,0 +1,3 @@
+{
+  "extends": ["github>ndxbn/renovate-config"]
+}
