@@ -4,6 +4,8 @@ pluginManagement {
 	repositories {
 		mavenLocal()
 		gradlePluginPortal()
+		google()
+		mavenCentral()
 		String frcYear = '2025'
 		File frcHome
 		if (OperatingSystem.current().isWindows()) {
@@ -26,12 +28,16 @@ pluginManagement {
 	}
 	plugins {
 		id 'org.jetbrains.kotlin.jvm' version '2.2.0'
+		id 'org.jetbrains.kotlin.multiplatform' version '2.2.0'
+		id 'com.android.library' version '8.5.2'
 	}
 }
 
 plugins {
 	id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
+
+include ':utils'
 
 Properties props = System.getProperties();
 props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");

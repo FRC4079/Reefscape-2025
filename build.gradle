@@ -66,6 +66,9 @@ dependencies {
 	implementation wpi.java.deps.wpilib()
 	implementation wpi.java.vendor.java()
 
+	// Include the utils multiplatform library
+	implementation project(':utils')
+
 	roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
 	roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
 
@@ -124,6 +127,7 @@ tasks.withType(JavaCompile).configureEach {
 
 repositories {
 	mavenCentral()
+	google()
 }
 
 kotlin {

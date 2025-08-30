@@ -1,0 +1,146 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'signing'
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+android {
+    namespace = "io.github.frc4079.reefscape.utils"
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 21
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+kotlin {
+    jvm()
+    
+    androidTarget {
+        publishLibraryVariants("release", "debug")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
+    
+    iosX64 {
+        binaries.framework {
+            baseName = "ReefscapeUtils"
+            isStatic = true
+        }
+    }
+    
+    iosArm64 {
+        binaries.framework {
+            baseName = "ReefscapeUtils"
+            isStatic = true
+        }
+    }
+    
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "ReefscapeUtils"
+            isStatic = true
+        }
+    }
+    
+    sourceSets {
+        commonMain {
+            dependencies {
+                // Common Kotlin dependencies
+            }
+        }
+        jvmMain {
+            dependencies {
+                // JVM-specific dependencies
+            }
+        }
+        androidMain {
+            dependencies {
+                // Android-specific dependencies
+            }
+        }
+        iosMain {
+            dependencies {
+                // iOS-specific dependencies
+            }
+        }
+        
+        commonTest {
+            dependencies {
+                implementation kotlin('test')
+            }
+        }
+    }
+    
+    jvmToolchain(17)
+}
+
+group = 'io.github.frc4079'
+version = '1.0.0'
+
+publishing {
+    publications {
+        withType(MavenPublication) {
+            pom {
+                name = 'Reefscape Utils'
+                description = 'Utility classes for FRC Team 4079 Reefscape robot - multiplatform Kotlin library'
+                url = 'https://github.com/FRC4079/Reefscape-2025'
+                
+                licenses {
+                    license {
+                        name = 'WPILib License'
+                        url = 'https://github.com/FRC4079/Reefscape-2025/blob/main/WPILib-License.md'
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id = 'frc4079'
+                        name = 'FRC Team 4079 Quantum Leap'
+                    }
+                }
+                
+                scm {
+                    connection = 'scm:git:git://github.com/FRC4079/Reefscape-2025.git'
+                    developerConnection = 'scm:git:ssh://github.com:FRC4079/Reefscape-2025.git'
+                    url = 'https://github.com/FRC4079/Reefscape-2025'
+                }
+            }
+        }
+    }
+    
+    repositories {
+        maven {
+            name = "sonatype"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("sonatype.username") ?: ""
+                password = findProperty("sonatype.password") ?: ""
+            }
+        }
+    }
+}
+
+signing {
+    def signingKey = findProperty("signing.keyId")
+    def signingPassword = findProperty("signing.password")
+    def signingSecretKeyRingFile = findProperty("signing.secretKeyRingFile")
+    
+    if (signingKey && signingPassword && signingSecretKeyRingFile) {
+        sign publishing.publications
+    }
+}
