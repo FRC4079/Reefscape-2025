@@ -1,6 +1,5 @@
 plugins {
     id 'org.jetbrains.kotlin.multiplatform'
-    id 'com.android.library'
     id 'maven-publish'
     id 'signing'
 }
@@ -10,31 +9,8 @@ repositories {
     google()
 }
 
-android {
-    namespace = "io.github.frc4079.reefscape.utils"
-    compileSdk 34
-
-    defaultConfig {
-        minSdk 21
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-}
-
 kotlin {
     jvm()
-    
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
     
     iosX64 {
         binaries.framework {
@@ -66,11 +42,6 @@ kotlin {
         jvmMain {
             dependencies {
                 // JVM-specific dependencies
-            }
-        }
-        androidMain {
-            dependencies {
-                // Android-specific dependencies
             }
         }
         iosMain {
